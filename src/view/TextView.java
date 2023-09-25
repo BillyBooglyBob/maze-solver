@@ -6,6 +6,7 @@ public class TextView {
         String start = "\u001B[42m   ";    // red
         String paths = "\u001B[47m   ";    // grey
         String walls = "\u001B[100m   ";   // dark grey
+        String traversed = "\u001B[42m   ";   // green
         String resetColor = "\u001B[0m";       // Reset color to default
 
         for (char[] i : newMaze) {
@@ -15,6 +16,7 @@ public class TextView {
                     case 'E' -> System.out.print(end);
                     case ' ', '.' -> System.out.print(paths);
                     case '#' -> System.out.print(walls);
+                    case 'T' -> System.out.print(traversed);
                 }
             }
             System.out.print(resetColor);

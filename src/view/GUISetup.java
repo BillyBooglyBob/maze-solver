@@ -1,6 +1,7 @@
 package view;
 
 import javax.swing.*;
+import java.awt.*;
 
 /**
  * Set up the JFrame which contains the GUIView JPanel
@@ -22,6 +23,14 @@ public class GUISetup {
         frame.setSize(400, 400); // Set the frame size accordingly
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
+
+        // Centre the frame
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int x = (screenSize.width - frame.getWidth()) / 2;
+        int y = (screenSize.height - frame.getHeight()) / 2;
+
+        // Set the frame's location to the center of the screen
+        frame.setLocation(x, y);
     }
 
     public void redraw(char[][] newMaze) {

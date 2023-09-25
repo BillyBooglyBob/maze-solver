@@ -1,16 +1,37 @@
+import model.Coordinate;
+import model.MazeSolver;
+import view.MazeView;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class Loader {
     public static void main(String[] args) {
-//        System.out.println(args[0]);
-        String redBlock = "\u001B[41m   ";      // Red background block
-        String greenBlock = "\u001B[42m   ";    // Green background block
-        String darkGreyBlock = "\u001B[100m   ";   // Yellow background block
-        String lightGrey = "\u001B[47m   ";       // Reset color to default
+        char[][] maze = {
+                {'#', '#', '#', '#', '#', '#', '#'},
+                {'#', 'S', '#', ' ', ' ', ' ', '#'},
+                {'#', ' ', '#', '#', '#', ' ', '#'},
+                {'#', ' ', '#', ' ', ' ', ' ', '#'},
+                {'#', ' ', '#', ' ', '#', ' ', '#'},
+                {'#', ' ', ' ', ' ', '#', 'E', '#'},
+                {'#', '#', '#', '#', '#', '#', '#'}
+        };
 
-        // Print colored blocks
-        System.out.print(redBlock);
-        System.out.print(greenBlock);
-        System.out.print(darkGreyBlock);
-        System.out.print(lightGrey);
+        List<Integer> path = new ArrayList<>();
+
+        Coordinate start = new Coordinate(1, 1);
+        MazeSolver.solveNextStep(maze, start);
+        MazeView view = new MazeView();
+        view.redraw(maze);
+
+        while(MazeSolver.solveNextStep(maze, start)) {
+            view.redraw(maze);
+        }
+        view.redraw(maze);
+
+
+
+
 
     }
 }

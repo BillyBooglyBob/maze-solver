@@ -57,6 +57,10 @@ public class GUIView extends JPanel {
                         g.setColor(Color.WHITE);
                         g.fillRect(x, y, cellSize, cellSize);
                     }
+                    case 'T' -> {
+                        g.setColor(Color.ORANGE);
+                        g.fillRect(x, y, cellSize, cellSize);
+                    }
                     // Add more cases for other characters if needed
                 }
             }
