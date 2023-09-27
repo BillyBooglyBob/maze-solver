@@ -31,35 +31,43 @@ public class GUIView extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        int cellSize = 30; // Size of each cell in pixels
+        // size of each cell in pixels
+        // alter the size based on the dimension of the maze
+        int cellSizeX = 700 / maze[0].length - 1;
+        int cellSizeY = 700 / maze.length - 1;
+        g.translate(35, 20);
 
         for (int row = 0; row < maze.length; row++) {
             for (int col = 0; col < maze[0].length; col++) {
                 char cell = maze[row][col];
-                int x = col * cellSize;
-                int y = row * cellSize;
+                int x = col * cellSizeX;
+                int y = row * cellSizeY;
 
                 // Map characters to colors or images
                 switch (cell) {
                     case '#' -> {
                         g.setColor(Color.BLACK);
-                        g.fillRect(x, y, cellSize, cellSize);
+                        g.fillRect(x, y, cellSizeX, cellSizeY);
                     }
                     case 'S' -> {
                         g.setColor(Color.GREEN);
-                        g.fillRect(x, y, cellSize, cellSize);
+                        g.fillRect(x, y, cellSizeX, cellSizeY);
                     }
                     case 'E' -> {
                         g.setColor(Color.RED);
-                        g.fillRect(x, y, cellSize, cellSize);
+                        g.fillRect(x, y, cellSizeX, cellSizeY);
                     }
                     case ' ', '.' -> {
                         g.setColor(Color.WHITE);
-                        g.fillRect(x, y, cellSize, cellSize);
+                        g.fillRect(x, y, cellSizeX, cellSizeY);
                     }
                     case 'T' -> {
                         g.setColor(Color.ORANGE);
-                        g.fillRect(x, y, cellSize, cellSize);
+                        g.fillRect(x, y, cellSizeX, cellSizeY);
+                    }
+                    case 'P' -> {
+                        g.setColor(Color.red);
+                        g.fillRect(x, y, cellSizeX, cellSizeY);
                     }
                     // Add more cases for other characters if needed
                 }

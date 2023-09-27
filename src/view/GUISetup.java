@@ -20,16 +20,20 @@ public class GUISetup {
         this.mazePanel = new GUIView(maze);
 
         frame.add(mazePanel);
-        frame.setSize(400, 400); // Set the frame size accordingly
+        frame.setSize(700, 700); // Set the frame size accordingly
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
 
-        // Centre the frame
+        // used to centre the panel which contains the maze
+        frame.setLayout(new BorderLayout());
+        frame.add(mazePanel, BorderLayout.CENTER);
+
+        // centre the frame
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int x = (screenSize.width - frame.getWidth()) / 2;
         int y = (screenSize.height - frame.getHeight()) / 2;
 
-        // Set the frame's location to the center of the screen
+        // set the frame's location to the center of the screen
         frame.setLocation(x, y);
     }
 

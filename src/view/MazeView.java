@@ -9,6 +9,7 @@ public class MazeView {
     if it says GUI make it GUI, else make it terminal
      */
     private final String displayMode;
+    private GUISetup GUIDisplay;
 
     public MazeView() {
         this.displayMode = "text";
@@ -24,9 +25,11 @@ public class MazeView {
      * @param displayMode mode that selects the way the maze will be display
      *                    either in the terminal or in a GUI
      */
-    public MazeView(String displayMode) {
+    public MazeView(String displayMode, char[][] maze) {
         if (displayMode.equals("GUI")) {
             this.displayMode = displayMode;
+            GUIDisplay = new GUISetup();
+            GUIDisplay.init(maze);
         } else {
             this.displayMode = "text";
         }
@@ -40,34 +43,7 @@ public class MazeView {
         if (displayMode.equals("text")) {
             TextView.redraw(maze);
         } else {
-            GUISetup GUIDisplay = new GUISetup();
-            GUIDisplay.init(maze);
-
+            GUIDisplay.redraw(maze);
         }
-    }
-
-    public static void main(String[] args) {
-        MazeView view = new MazeView("GUI");
-        char[][] maze = {
-                {'#', '#', '#', '#', '#', '#', '#'},
-                {'#', 'S', '#', ' ', ' ', ' ', '#'},
-                {'#', ' ', '#', '#', '#', ' ', '#'},
-                {'#', ' ', '#', ' ', ' ', ' ', '#'},
-                {'#', ' ', '#', ' ', '#', ' ', '#'},
-                {'#', ' ', ' ', ' ', '#', 'E', '#'},
-                {'#', '#', '#', '#', '#', '#', '#'}
-        };
-        view.redraw(maze);
-
-        char[][] newMaze = {
-                {'#', '#', '#', '#', '#', '#', '#'},
-                {'#', 'S', '#', ' ', ' ', ' ', '#'},
-                {'#', 'S', '#', '#', '#', ' ', '#'},
-                {'#', 'S', '#', ' ', ' ', ' ', '#'},
-                {'#', ' ', '#', ' ', '#', ' ', '#'},
-                {'#', ' ', ' ', ' ', '#', 'E', '#'},
-                {'#', '#', '#', '#', '#', '#', '#'}
-        };
-        view.redraw(newMaze);
     }
 }
