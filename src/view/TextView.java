@@ -19,24 +19,14 @@ public class TextView {
                     case ' ', '.' -> System.out.print(paths);
                     case '#' -> System.out.print(walls);
                     case 'T' -> System.out.print(traversed);
-                    case 'P' -> System.out.print(traversed);
+                    case 'P' -> System.out.print(solution);
                 }
             }
+            // used to reset the text colour to prevent colouring the entire line
+            System.out.print(resetColor);
             System.out.println();
         }
-    }
-
-    public static void main(String[] args) {
-        char[][] maze = {
-                {'#', '#', '#', '#', '#', '#', '#'},
-                {'#', 'S', '#', ' ', ' ', ' ', '#'},
-                {'#', ' ', '#', '#', '#', ' ', '#'},
-                {'#', ' ', '#', ' ', ' ', ' ', '#'},
-                {'#', ' ', '#', ' ', '#', ' ', '#'},
-                {'#', ' ', ' ', ' ', '#', 'E', '#'},
-                {'#', '#', '#', '#', '#', '#', '#'}
-        };
-
-        TextView.redraw(maze);
+        // to separate each maze by one line for clarity
+        System.out.println();
     }
 }

@@ -93,7 +93,6 @@ public class MazeSolver {
         if (!this.solveNextStep(maze, row, col, path)) {
             System.out.println("No path");
         } else {
-            System.out.println("Path found");
             // displays the correct path if one exists
             for (int i = 0; i < path.size(); i+=2) {
                 int x = path.get(i);
@@ -102,6 +101,6 @@ public class MazeSolver {
                 }
             }
             this.view.redraw(maze);
-
+            System.out.println("Path found");
         }
     }
