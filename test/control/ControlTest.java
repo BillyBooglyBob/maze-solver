@@ -1,32 +1,14 @@
-package io;
+package control;
 
-import exceptions.MazeMalformedException;
-import exceptions.MazeSizeMissmatchException;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
-import java.io.FileNotFoundException;
-import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.*;
 
-public class FileLoaderTest {
-
-    private FileLoader fileLoader;
-
-    @Before
-    public void setUp() {
-        fileLoader = new FileLoader();
-    }
-
-    @After
-    public void tearDown() {
-        fileLoader = null;
-    }
+public class ControlTest {
 
     @Test
-    public void loadTestSmallMap() throws FileNotFoundException, MazeSizeMissmatchException, MazeMalformedException {
-        char[][] actualMap = fileLoader.load("maze-solver\\src\\mazes\\Small.txt");
-        char[][] correctMap = {
+    public void findStartingCoordinateSmallMaze() {
+        char[][] maze = {
                 {'#', '#', '#', '#', '#', '#', '#'},
                 {'#', 'S', '#', ' ', ' ', ' ', '#'},
                 {'#', ' ', '#', '#', '#', ' ', '#'},
@@ -35,13 +17,16 @@ public class FileLoaderTest {
                 {'#', ' ', ' ', ' ', '#', 'E', '#'},
                 {'#', '#', '#', '#', '#', '#', '#'}
         };
-        assertArrayEquals(correctMap, actualMap);
+
+        int[] coordinate = Control.findStartingCoordinate(maze);
+        int[] actualCoordinate = {1, 1};
+
+        assertArrayEquals(actualCoordinate, coordinate);
     }
 
     @Test
-    public void loadTestMediumMap() throws FileNotFoundException, MazeSizeMissmatchException, MazeMalformedException {
-        char[][] actualMap = fileLoader.load("maze-solver\\src\\mazes\\Medium.txt");
-        char[][] correctMap = {
+    public void findStartingCoordinateMediumMaze() {
+        char[][] maze = {
                 {'#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#'},
                 {'#', 'S', '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', '#'},
                 {'#', ' ', '#', '#', '#', '#', '#', '#', '#', ' ', '#', ' ', '#', ' ', '#', ' ', '#', ' ', '#', ' ', '#', '#', '#', ' ', '#', ' ', '#', '#', '#', ' ', '#', ' ', '#', '#', '#', ' ', '#', ' ', '#', ' ', '#'},
@@ -64,42 +49,11 @@ public class FileLoaderTest {
                 {'#', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', ' ', 'E', '#'},
                 {'#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#'}
         };
-        assertArrayEquals(correctMap, actualMap);
+
+        int[] coordinate = Control.findStartingCoordinate(maze);
+        int[] actualCoordinate = {1, 1};
+
+        assertArrayEquals(actualCoordinate, coordinate);
     }
 
-    @Test (expected = IllegalArgumentException.class)
-    public void loadTestWrongDimension()
-            throws FileNotFoundException, MazeSizeMissmatchException, MazeMalformedException {
-        fileLoader.load("maze-solver\\test\\mazes\\WrongDimension.txt");
-    }
-
-    @Test (expected = IllegalArgumentException.class)
-    public void loadTestNoDimension()
-            throws FileNotFoundException, MazeSizeMissmatchException, MazeMalformedException {
-        fileLoader.load("maze-solver\\test\\mazes\\NoDimension.txt");
-    }
-
-    @Test (expected = MazeMalformedException.class)
-    public void loadTestMapWrongCharacter()
-            throws FileNotFoundException, MazeSizeMissmatchException, MazeMalformedException {
-        fileLoader.load("maze-solver\\test\\mazes\\WrongCharacter.txt");
-    }
-
-    @Test (expected = MazeSizeMissmatchException.class)
-    public void loadTestTooManyRows()
-            throws FileNotFoundException, MazeSizeMissmatchException, MazeMalformedException {
-        fileLoader.load("maze-solver\\test\\mazes\\TooManyRows.txt");
-    }
-
-    @Test (expected = MazeSizeMissmatchException.class)
-    public void loadTestTooFewRows()
-            throws FileNotFoundException, MazeSizeMissmatchException, MazeMalformedException {
-        fileLoader.load("maze-solver\\test\\mazes\\TooFewRows.txt");
-    }
-
-    @Test (expected = MazeSizeMissmatchException.class)
-    public void loadTestWrongWidth()
-            throws FileNotFoundException, MazeSizeMissmatchException, MazeMalformedException {
-        fileLoader.load("maze-solver\\test\\mazes\\WrongWidth.txt");
-    }
 }

@@ -3,17 +3,19 @@ package control;
 import model.MazeSolver;
 import view.MazeView;
 
-import java.util.ArrayList;
-import java.util.List;
-
+/**
+ * Control class that inputs display mode and maze into Model and View classes to solve and display.
+ */
 public class Control {
-    private MazeSolver solver;
-    private String displayMode;
-    private char[][] maze;
-    private List<Integer> startingCoordinate = new ArrayList<>();
+    private final MazeSolver solver;
+    private final char[][] maze;
 
+    /**
+     * Initialise the Control class with the user inputted display mode and selected maze.
+     * @param displayMode mode to display the maze in (either text or GUI).
+     * @param maze 2D maze to solve.
+     */
     public Control(String displayMode, char[][] maze) {
-        this.displayMode = displayMode;
         this.maze = maze;
 
         MazeView view;
@@ -23,32 +25,37 @@ public class Control {
             view = new MazeView();
         }
 
-        MazeSolver solver = new MazeSolver(view);
-    }
-
-    public void solveMaze() {
-        int startRow = startingCoordinate.get(0);
-        int startCol = startingCoordinate.get(1);
-        solver.solve(maze, startRow, startCol);
+       this.solver = new MazeSolver(view);
     }
 
     /**
-     * Used to find the starting coordinate from the maze
-     *
+     * Runs the solve maze method of the Model class.
+     */
+    public void solveMaze() {
+        int[] startingCoordinate = findStartingCoordinate(maze);
+        int startRow = startingCoordinate[0];
+        int startCol = startingCoordinate[1];
+        solver.showMazeSolution(maze, startRow, startCol);
+    }
+
+    /**
+     * Used to find the starting coordinate from the maze.
      * <p>
-     *     If starting coordinate not found, use random
+     * If starting coordinate not found, use random.
      * </p>
      *
-     * @param maze
+     * @param maze 2D maze to solve.
      */
-    public void findStartingCooridnate(char[][] maze) {
+    public static int[] findStartingCoordinate(char[][] maze) {
+        int[] startingCoordinate = {0, 0};
         for (int i = 0; i < maze.length; i++) {
             for (int j = 0; j < maze[0].length; j++) {
                 if (maze[i][j] == 'S') {
-                    startingCoordinate.set(0, i);
-                    startingCoordinate.set(1, j);
+                    startingCoordinate[0] = i;
+                    startingCoordinate[1] = j;
                 }
             }
         }
+        return startingCoordinate;
     }
 }

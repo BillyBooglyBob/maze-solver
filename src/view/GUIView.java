@@ -4,19 +4,18 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * JPanel that draws the provided maze in the GUI
- *
+ * JPanel that draws the provided maze in the GUI.
  * <p>
- *     Can redraw with updated map
+ * Can redraw with updated map.
  * </p>
  */
 public class GUIView extends JPanel {
     private char[][] maze;
 
     /**
-     * Initialises the maze
+     * Initialises the maze.
      *
-     * @param maze 2D array of the provided maze
+     * @param maze 2D array of the provided maze.
      */
     public GUIView(char[][] maze) {
         this.maze = maze;
@@ -25,20 +24,35 @@ public class GUIView extends JPanel {
     /**
      * Overrides the default paintComponent to draw the maze.
      *
-     * @param g the <code>Graphics</code> object to protect
+     * @param g the <code>Graphics</code> object to protect.
      */
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
+        Toolkit toolkit = Toolkit.getDefaultToolkit();
+
+        // Get the screen size
+        Dimension screenSize = toolkit.getScreenSize();
+        int screenWidth = (int) screenSize.getWidth();
+        int screenHeight = (int) screenSize.getHeight();
+
+        int mazeWidth = maze[0].length;
+        int mazeHeight = maze.length;
+
         // size of each cell in pixels
         // alter the size based on the dimension of the maze
-        int cellSizeX = 700 / maze[0].length - 1;
-        int cellSizeY = 700 / maze.length - 1;
-        g.translate(35, 20);
+        int cellSizeX = screenWidth / mazeWidth;
+        int cellSizeY = screenHeight / mazeHeight;
+        
+        int offsetX = (screenWidth - cellSizeX * mazeWidth) / 2;
+        int offsetY = (screenHeight - cellSizeY * mazeHeight) / 2;
 
-        for (int row = 0; row < maze.length; row++) {
-            for (int col = 0; col < maze[0].length; col++) {
+        g.translate(offsetX, offsetY);
+
+        // go through the maze and draw each block with the designated colour
+        for (int row = 0; row < mazeHeight; row++) {
+            for (int col = 0; col < mazeWidth; col++) {
                 char cell = maze[row][col];
                 int x = col * cellSizeX;
                 int y = row * cellSizeY;
@@ -69,7 +83,6 @@ public class GUIView extends JPanel {
                         g.setColor(Color.red);
                         g.fillRect(x, y, cellSizeX, cellSizeY);
                     }
-                    // Add more cases for other characters if needed
                 }
             }
         }

@@ -4,39 +4,43 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * Set up the JFrame which contains the GUIView JPanel
- * Based on provided maze initialises the JPanel
+ * Set up the JFrame which contains the GUIView JPanel based on provided maze initialises the JPanel.
  */
 public class GUISetup {
     private GUIView mazePanel;
 
     /**
-     * Creates the JFrame which contains the JPanel that draws the maze
+     * Creates the JFrame which contains the JPanel that draws the maze.
      *
-     * @param maze 2D array of the provided maze
+     * @param maze 2D maze to be displayed.
      */
     public void init(char[][] maze) {
-        JFrame frame = new JFrame("Maze Visualization");
-        this.mazePanel = new GUIView(maze);
+        Toolkit toolkit = Toolkit.getDefaultToolkit();
 
+        // Get the screen size
+        Dimension screenSize = toolkit.getScreenSize();
+        int screenWidth = (int) screenSize.getWidth();
+        int screenHeight = (int) screenSize.getHeight();
+
+        // initialise the panel to the size of the screen
+        this.mazePanel = new GUIView(maze);
+        mazePanel.setPreferredSize(new Dimension(screenWidth, screenHeight));
+
+        // initialise the frame
+        JFrame frame = new JFrame("Maze Visualization");
         frame.add(mazePanel);
-        frame.setSize(700, 700); // Set the frame size accordingly
+        frame.setSize(screenWidth, screenHeight); // Set the frame size accordingly
+        frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
-
-        // used to centre the panel which contains the maze
-        frame.setLayout(new BorderLayout());
-        frame.add(mazePanel, BorderLayout.CENTER);
-
-        // centre the frame
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        int x = (screenSize.width - frame.getWidth()) / 2;
-        int y = (screenSize.height - frame.getHeight()) / 2;
-
-        // set the frame's location to the center of the screen
-        frame.setLocation(x, y);
+        frame.pack();
     }
 
+    /**
+     * Redraws the maze based on the new updated maze.
+     *
+     * @param newMaze new 2D maze to display.
+     */
     public void redraw(char[][] newMaze) {
         mazePanel.redraw(newMaze);
     }

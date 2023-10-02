@@ -1,7 +1,7 @@
 package view;
 
 /**
- * Class for displaying the maze in the terminal or in the GUI
+ * Class for displaying the maze in the terminal or in the GUI.
  */
 public class MazeView {
     /*
@@ -11,19 +11,20 @@ public class MazeView {
     private final String displayMode;
     private GUISetup GUIDisplay;
 
+    /**
+     * Initialise the default display mode to text.
+     */
     public MazeView() {
         this.displayMode = "text";
     }
 
     /**
      * Constructor that lets the user decide between text or GUI display of the maze.
-     *
      * <p>
-     *     Default display is text.
+     * Default display is text.
      * </p>
      *
-     * @param displayMode mode that selects the way the maze will be display
-     *                    either in the terminal or in a GUI
+     * @param displayMode mode that specifies whether the maze will be displayed using text or GUI.
      */
     public MazeView(String displayMode, char[][] maze) {
         if (displayMode.equals("GUI")) {
@@ -37,7 +38,8 @@ public class MazeView {
 
     /**
      * Redraws the maze based on the updated version in the selected mode.
-     * @param maze 2D array of the current maze
+     *
+     * @param maze 2D array of the current maze.
      */
     public void redraw(char[][] maze) {
         if (displayMode.equals("text")) {
