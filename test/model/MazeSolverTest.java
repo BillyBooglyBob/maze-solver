@@ -10,6 +10,7 @@ import java.io.PrintStream;
 
 import static org.junit.Assert.*;
 
+/** Did not use the Fileloader.load() method for the tests to make sure they are independent. */
 public class MazeSolverTest {
     private MazeSolver solver;
 

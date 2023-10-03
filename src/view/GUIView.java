@@ -10,6 +10,7 @@ import java.awt.*;
  * </p>
  */
 public class GUIView extends JPanel {
+    /** maze to be drawn in the GUI. */
     private char[][] maze;
 
     /**
@@ -30,9 +31,8 @@ public class GUIView extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        Toolkit toolkit = Toolkit.getDefaultToolkit();
-
         // Get the screen size
+        Toolkit toolkit = Toolkit.getDefaultToolkit();
         Dimension screenSize = toolkit.getScreenSize();
         int screenWidth = (int) screenSize.getWidth();
         int screenHeight = (int) screenSize.getHeight();
@@ -44,10 +44,10 @@ public class GUIView extends JPanel {
         // alter the size based on the dimension of the maze
         int cellSizeX = screenWidth / mazeWidth;
         int cellSizeY = screenHeight / mazeHeight;
-        
+
+        // calculate offset for the maze to centre it in the middle
         int offsetX = (screenWidth - cellSizeX * mazeWidth) / 2;
         int offsetY = (screenHeight - cellSizeY * mazeHeight) / 2;
-
         g.translate(offsetX, offsetY);
 
         // go through the maze and draw each block with the designated colour
@@ -57,7 +57,7 @@ public class GUIView extends JPanel {
                 int x = col * cellSizeX;
                 int y = row * cellSizeY;
 
-                // Map characters to colors or images
+                // Map characters to the correct coloured block
                 switch (cell) {
                     case '#' -> {
                         g.setColor(Color.BLACK);

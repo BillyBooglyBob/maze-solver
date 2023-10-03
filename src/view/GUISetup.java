@@ -7,6 +7,7 @@ import java.awt.*;
  * Set up the JFrame which contains the GUIView JPanel based on provided maze initialises the JPanel.
  */
 public class GUISetup {
+    /** Stores the panel to ensure it can be redrawn. */
     private GUIView mazePanel;
 
     /**
@@ -15,9 +16,8 @@ public class GUISetup {
      * @param maze 2D maze to be displayed.
      */
     public void init(char[][] maze) {
-        Toolkit toolkit = Toolkit.getDefaultToolkit();
-
         // Get the screen size
+        Toolkit toolkit = Toolkit.getDefaultToolkit();
         Dimension screenSize = toolkit.getScreenSize();
         int screenWidth = (int) screenSize.getWidth();
         int screenHeight = (int) screenSize.getHeight();
@@ -27,10 +27,10 @@ public class GUISetup {
         mazePanel.setPreferredSize(new Dimension(screenWidth, screenHeight));
 
         // initialise the frame
-        JFrame frame = new JFrame("Maze Visualization");
+        JFrame frame = new JFrame("Maze Solver");
         frame.add(mazePanel);
-        frame.setSize(screenWidth, screenHeight); // Set the frame size accordingly
-        frame.setLocationRelativeTo(null);
+        frame.setSize(screenWidth, screenHeight);
+        frame.setLocationRelativeTo(null); // Set the frame to the centre
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
         frame.pack();

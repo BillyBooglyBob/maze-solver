@@ -67,6 +67,22 @@ public class FileLoaderTest {
         assertArrayEquals(correctMap, actualMap);
     }
 
+    /** The map includes both ' ' and '.' paths. */
+    @Test
+    public void loadTestSmallWithDotPath() throws FileNotFoundException, MazeSizeMissmatchException, MazeMalformedException {
+        char[][] actualMap = fileLoader.load("maze-solver\\test\\mazes\\SmallWithDotPath.txt");
+        char[][] correctMap = {
+                {'#', '#', '#', '#', '#', '#', '#'},
+                {'#', 'S', '#', ' ', ' ', ' ', '#'},
+                {'#', '.', '#', '#', '#', ' ', '#'},
+                {'#', '.', '#', ' ', ' ', ' ', '#'},
+                {'#', ' ', '#', ' ', '#', ' ', '#'},
+                {'#', ' ', ' ', ' ', '#', 'E', '#'},
+                {'#', '#', '#', '#', '#', '#', '#'}
+        };
+        assertArrayEquals(correctMap, actualMap);
+    }
+
     @Test (expected = IllegalArgumentException.class)
     public void loadTestWrongDimension()
             throws FileNotFoundException, MazeSizeMissmatchException, MazeMalformedException {
@@ -79,10 +95,28 @@ public class FileLoaderTest {
         fileLoader.load("maze-solver\\test\\mazes\\NoDimension.txt");
     }
 
+    @Test (expected = FileNotFoundException.class)
+    public void loadTestNonExistentFile()
+            throws FileNotFoundException, MazeSizeMissmatchException, MazeMalformedException {
+        fileLoader.load("maze-solver\\test\\mazes\\NonExistentFile.txt");
+    }
+
     @Test (expected = MazeMalformedException.class)
     public void loadTestMapWrongCharacter()
             throws FileNotFoundException, MazeSizeMissmatchException, MazeMalformedException {
         fileLoader.load("maze-solver\\test\\mazes\\WrongCharacter.txt");
+    }
+
+    @Test (expected = MazeMalformedException.class)
+    public void loadTestMapNoStartPoint()
+            throws FileNotFoundException, MazeSizeMissmatchException, MazeMalformedException {
+        fileLoader.load("maze-solver\\test\\mazes\\NoStartPoint.txt");
+    }
+
+    @Test (expected = MazeMalformedException.class)
+    public void loadTestMapTooManyEndPoints()
+            throws FileNotFoundException, MazeSizeMissmatchException, MazeMalformedException {
+        fileLoader.load("maze-solver\\test\\mazes\\TooManyEndPoints.txt");
     }
 
     @Test (expected = MazeSizeMissmatchException.class)

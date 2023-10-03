@@ -21,12 +21,12 @@ public class TextView {
         String darkGrey = "\u001B[100m";
 
         // create blocks for each part of the maze
-        String end = red + block;      // red
-        String start = green + block;    // green
-        String paths = grey + block;    // grey
-        String walls = darkGrey + block;   // dark grey
+        String end = red + block;           // red
+        String start = green + block;       // green
+        String paths = grey + block;        // grey
+        String walls = darkGrey + block;    // dark grey
         String traversed = green + block;   // green
-        String solution = red + block;    // red
+        String solution = red + block;      // red
 
         String resetColor = "\u001B[0m";       // Reset color to default
 
@@ -54,9 +54,9 @@ public class TextView {
      * Get the size of the block to display depending on the size of the maze.
      *
      * @param maze 2D array of the current maze.
-     * @return suitable size for a block of the maze.
+     * @return suitable size for a block of the maze that fits within the terminal.
      */
-    public static int blockSize(char[][] maze) {
+    private static int blockSize(char[][] maze) {
         int mazeWidth = maze[0].length;
         if (mazeWidth > (140 / 3)) {
             return 140 / mazeWidth;
@@ -69,8 +69,10 @@ public class TextView {
      *
      * @param blockSize size of the block (how many characters it will have).
      * @return String containing same number of spaces as the blockSize.
+     * @require blockSize != null && blockSize >= 0
+     * @ensure each cell of the maze displayed with accurate sizes.
      */
-    public static String createBlock(int blockSize) {
+    private static String createBlock(int blockSize) {
         StringBuilder block = new StringBuilder();
         for (int i = 0; i < blockSize; i++) {
             block.append(" ");

@@ -7,30 +7,41 @@ import view.MazeView;
  */
 public class MazeSolver {
 
+    /** Used to update the view with the newest maze after each step of solving. */
     private final MazeView view;
-    // contains the actual path that solves the maze
 
+    /**
+     * Initialises the MazeSolver with the provided view.
+     *
+     * @param view used to update the maze.
+     */
     public MazeSolver(MazeView view) {
         this.view = view;
     }
 
-    /** Implements the depth first algorithm to solve the given maze from the given starting position.
+    /** Implements the depth first search algorithm to solve the provided maze from its starting position.
      * <p>
      * - Returning true and outline the valid path if solvable.
      * - Returning false vice versa.
+     * The maze is solved incrementally with each step shown.
      * </p>
      *
      * @param maze 2D maze to be solved.
+     * @param row starting position's row.
+     * @param col starting position's column.
      * @return boolean value depending on if the maze is solved.
+     * @require valid starting point provided.
+     * @ensure the maze may be partially solved, and the view will be updated with each step.
      */
     public boolean solveMaze(char[][] maze, int row, int col) {
-        // check if target node is reached
+        // check if the end is reached ('E' is the end)
         if (maze[row][col] == 'E') {
+            // redraws the maze with the path found highlighted
+            this.view.redraw(maze);
             return true;
         }
 
-        // when current position not visited, mark it as visited
-        // T signifies traversed path
+        // when the current position is not visited mark it as visited ('T' is the traversed path)
         if (maze[row][col] == ' ' || maze[row][col] == '.' || maze[row][col] == 'S') {
             maze[row][col] = 'T';
             // redraw the updated maze
@@ -38,12 +49,12 @@ public class MazeSolver {
 
             // sleep to give adequate time to view the changing maze
             try {
-                Thread.sleep(10000);
+                Thread.sleep(10);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
 
-            // visit all the neighbour nodes recursively
+            // visit all the neighbour cells in the four directions (NSEW) recursively
             int dx = -1;
             int dy = 0;
             if (solveMaze(maze, row + dx, col + dy)) {
@@ -76,8 +87,9 @@ public class MazeSolver {
     }
 
     /**
-     * Attempt to solve the maze, displays the correct path if solvable and success message if solvable.
+     * Depending on the outcome of the maze-solving attempt, inform the user of the outcome.
      * <p>
+     * If solvable, displays the correct path and success message.
      * If not solvable, outputs fail message.
      * </p>
      *
@@ -89,9 +101,6 @@ public class MazeSolver {
         if (!this.solveMaze(maze, row, col)) {
             System.out.print("No path");
         } else {
-            // redraw the maze with the path found
-            this.view.redraw(maze);
-
             // uses print instead of println as it is the end of the output and to enable testing of output
             System.out.print("Path found");
         }

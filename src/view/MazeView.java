@@ -2,17 +2,20 @@ package view;
 
 /**
  * Class for displaying the maze in the terminal or in the GUI.
+ * <p>
+ * Two constructors made, one for the default text display and the other for the GUI display.
+ * </p>
  */
 public class MazeView {
-    /*
-    use constructor to decide which mode (terminal/GUI to implement)
-    if it says GUI make it GUI, else make it terminal
-     */
+
+    /** Mode chosen to display the maze (either text or GUI). */
     private final String displayMode;
+
+    /** Used to display the maze in the GUI */
     private GUISetup GUIDisplay;
 
     /**
-     * Initialise the default display mode to text.
+     * Default constructor which makes the default display mode text.
      */
     public MazeView() {
         this.displayMode = "text";
@@ -20,11 +23,9 @@ public class MazeView {
 
     /**
      * Constructor that lets the user decide between text or GUI display of the maze.
-     * <p>
-     * Default display is text.
-     * </p>
      *
      * @param displayMode mode that specifies whether the maze will be displayed using text or GUI.
+     * @param maze 2D array of the maze to display.
      */
     public MazeView(String displayMode, char[][] maze) {
         if (displayMode.equals("GUI")) {
