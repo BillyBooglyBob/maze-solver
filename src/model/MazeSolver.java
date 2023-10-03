@@ -99,10 +99,10 @@ public class MazeSolver {
      */
     public void showMazeSolution(char[][] maze, int row, int col) {
         if (!this.solveMaze(maze, row, col)) {
-            System.out.print("No path");
+            System.out.println("No path");
         } else {
             // uses print instead of println as it is the end of the output and to enable testing of output
-            System.out.print("Path found");
+            System.out.println("Path found");
         }
     }
 }

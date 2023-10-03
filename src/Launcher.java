@@ -32,10 +32,12 @@ public class Launcher {
         } else if (args.length == 2 && args[0].equals("GUI") && args[1].endsWith(".txt")) {
             maze = fileLoader.load("mazes/" + args[1]);
             displayMode = args[0];
-        } else {
-            throw new FileNotFoundException();
         }
-
+//        else {
+//            throw new FileNotFoundException();
+//        }
+        maze = fileLoader.load("C:\\Users\\willi\\OneDrive\\Desktop\\UQ Things\\Year 1\\Sem 2\\CSSE2002\\a1\\maze-solver\\maze-solver\\src\\mazes\\Small.txt");
+        displayMode = "GUI";
         // solves the maze
         Control control = new Control(displayMode, maze);
         control.solveMaze();

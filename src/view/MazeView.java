@@ -12,7 +12,7 @@ public class MazeView {
     private final String displayMode;
 
     /** Used to display the maze in the GUI */
-    private GUISetup GUIDisplay;
+    private GUISetup GUIView;
 
     /**
      * Default constructor which makes the default display mode text.
@@ -30,8 +30,8 @@ public class MazeView {
     public MazeView(String displayMode, char[][] maze) {
         if (displayMode.equals("GUI")) {
             this.displayMode = displayMode;
-            GUIDisplay = new GUISetup();
-            GUIDisplay.init(maze);
+            GUIView = new GUISetup();
+            GUIView.init(maze);
         } else {
             this.displayMode = "text";
         }
@@ -46,7 +46,7 @@ public class MazeView {
         if (displayMode.equals("text")) {
             TextView.redraw(maze);
         } else {
-            GUIDisplay.redraw(maze);
+            GUIView.redraw(maze);
         }
     }
 }

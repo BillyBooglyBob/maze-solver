@@ -9,17 +9,25 @@ import java.awt.*;
  * Can redraw with updated map.
  * </p>
  */
-public class GUIView extends JPanel {
+public class GUIPanel extends JPanel {
     /** maze to be drawn in the GUI. */
     private char[][] maze;
 
     /**
-     * Initialises the maze.
+     * Initialises the maze and the panel with the dimension of the screen.
      *
      * @param maze 2D array of the provided maze.
      */
-    public GUIView(char[][] maze) {
+    public GUIPanel(char[][] maze) {
         this.maze = maze;
+
+        // Get the screen size
+        // set the size of the both the panel and frame at one place
+        Toolkit toolkit = Toolkit.getDefaultToolkit();
+        Dimension screenSize = toolkit.getScreenSize();
+        int screenWidth = (int) screenSize.getWidth();
+        int screenHeight = (int) screenSize.getHeight();
+        this.setPreferredSize(new Dimension(screenWidth, screenHeight));
     }
 
     /**
