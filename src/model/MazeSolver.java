@@ -50,8 +50,6 @@ public class MazeSolver {
     public boolean solveMaze(char[][] maze, int row, int col) {
         // check if the end is reached ('E' is the end)
         if (maze[row][col] == 'E') {
-            // redraws the maze with the path found highlighted
-            notifyObservers(maze);
             return true;
         }
 
@@ -63,7 +61,7 @@ public class MazeSolver {
 
             // sleep to give adequate time to view the changing maze
             try {
-                Thread.sleep(10000);
+                Thread.sleep(10);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
@@ -133,12 +131,15 @@ public class MazeSolver {
      * @return whether the maze the solved or not.
      */
     public boolean showMazeSolution(char[][] maze) {
-        /* Starting position's coordinate */
+        // Starting position's coordinate
         int[] startingCoordinate = MazeSolver.findStartingCoordinate(maze);
         int startRow = startingCoordinate[0];
         int startCol = startingCoordinate[1];
 
-        return this.solveMaze(maze, startRow, startCol);
+        boolean result = this.solveMaze(maze, startRow, startCol);
+        // needed to redraw the maze with the solution path
+        notifyObservers(maze);
+        return result;
     }
 
 }
