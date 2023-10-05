@@ -63,7 +63,7 @@ public class MazeSolver {
 
             // sleep to give adequate time to view the changing maze
             try {
-                Thread.sleep(10);
+                Thread.sleep(10000);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }

@@ -61,9 +61,11 @@ public class TextView implements Observer {
      */
     private static int blockSize(char[][] maze) {
         int mazeWidth = maze[0].length;
+        // 140 is the typical size of the terminal
         if (mazeWidth > (140 / 3)) {
             return 140 / mazeWidth;
         }
+        // 3 is a suitable block size that ensures each cell of the maze is square
         return 3;
     }
 
