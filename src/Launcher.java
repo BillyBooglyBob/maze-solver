@@ -35,7 +35,7 @@ public class Launcher {
         } else {
             throw new FileNotFoundException();
         }
-        // solves the maze
+
         Control control = new Control(displayMode, maze);
         control.solveMaze();
     }

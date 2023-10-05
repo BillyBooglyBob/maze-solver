@@ -5,9 +5,6 @@ import org.junit.Before;
 import org.junit.Test;
 import view.MazeView;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
-
 import static org.junit.Assert.*;
 
 /**
@@ -17,25 +14,22 @@ import static org.junit.Assert.*;
  * </p>
  */
 public class MazeSolverTest {
-    /** Variable shared by all the tests to avoid repetition. */
+    /** Maze to solve. */
+    char[][] maze;
+
+    /** MazeSolver instance shared by all the tests to avoid repetition. */
     private MazeSolver solver;
 
-    /** used for testing System.out.print() outputs */
-    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-    private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
-    private final PrintStream originalOut = System.out;
-    private final PrintStream originalErr = System.err;
+    /** Decides which mode to display the maze in (text or GUI) */
+    private String displayMode;
 
     /**
-     * Create the MazeSolver instance with the default MazeView (text display) to avoid repetitive setup in the tests.
+     * Creates the MazeSolver instance to avoid repetitive setup in the tests and initialises an empty maze.
      */
     @Before
     public void setUp() {
-        MazeView view = new MazeView();
-        solver = new MazeSolver(view);
-
-        System.setOut(new PrintStream(outContent));
-        System.setErr(new PrintStream(errContent));
+        maze = new char[0][];
+        solver = new MazeSolver();
     }
 
     /**
@@ -44,9 +38,6 @@ public class MazeSolverTest {
     @After
     public void tearDown() {
         solver = null;
-
-        System.setOut(originalOut);
-        System.setErr(originalErr);
     }
 
     /**
@@ -108,7 +99,84 @@ public class MazeSolverTest {
     }
 
     /**
-     * Check the success message is printed for the maze which is solvable.
+     * Attempts to find the starting position of a small maze.
+     */
+    @Test
+    public void findStartingCoordinateSmallMaze() {
+        char[][] maze = {
+                {'#', '#', '#', '#', '#', '#', '#'},
+                {'#', 'S', '#', ' ', ' ', ' ', '#'},
+                {'#', ' ', '#', '#', '#', ' ', '#'},
+                {'#', ' ', '#', ' ', ' ', ' ', '#'},
+                {'#', ' ', '#', ' ', '#', ' ', '#'},
+                {'#', ' ', ' ', ' ', '#', 'E', '#'},
+                {'#', '#', '#', '#', '#', '#', '#'}
+        };
+
+        int[] coordinate = MazeSolver.findStartingCoordinate(maze);
+        int[] actualCoordinate = {1, 1};
+
+        assertArrayEquals(actualCoordinate, coordinate);
+    }
+
+    /**
+     * Attempts to find the starting coordinate in the middle of the map.
+     */
+    @Test
+    public void findStartingCoordinateSmallMazeRandomStart() {
+        char[][] maze = {
+                {'#', '#', '#', '#', '#', '#', '#'},
+                {'#', ' ', '#', ' ', ' ', ' ', '#'},
+                {'#', ' ', '#', '#', '#', ' ', '#'},
+                {'#', ' ', '#', ' ', ' ', ' ', '#'},
+                {'#', ' ', '#', 'S', '#', ' ', '#'},
+                {'#', ' ', ' ', ' ', '#', 'E', '#'},
+                {'#', '#', '#', '#', '#', '#', '#'}
+        };
+
+        int[] coordinate = MazeSolver.findStartingCoordinate(maze);
+        int[] actualCoordinate = {4, 3};
+
+        assertArrayEquals(actualCoordinate, coordinate);
+    }
+
+    /**
+     * Attempts to find the starting coordinate of a medium maze.
+     */
+    @Test
+    public void findStartingCoordinateMediumMaze() {
+        char[][] maze = {
+                {'#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#'},
+                {'#', 'S', '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', '#'},
+                {'#', ' ', '#', '#', '#', '#', '#', '#', '#', ' ', '#', ' ', '#', ' ', '#', ' ', '#', ' ', '#', ' ', '#', '#', '#', ' ', '#', ' ', '#', '#', '#', ' ', '#', ' ', '#', '#', '#', ' ', '#', ' ', '#', ' ', '#'},
+                {'#', ' ', '#', ' ', ' ', ' ', ' ', ' ', '#', ' ', '#', ' ', ' ', ' ', '#', ' ', ' ', ' ', '#', ' ', ' ', ' ', '#', ' ', ' ', ' ', '#', ' ', '#', ' ', '#', ' ', ' ', ' ', ' ', ' ', '#', ' ', '#', ' ', '#'},
+                {'#', ' ', '#', ' ', '#', '#', '#', ' ', '#', ' ', '#', '#', '#', '#', '#', '#', '#', ' ', '#', '#', '#', ' ', '#', '#', '#', '#', '#', ' ', '#', ' ', '#', '#', '#', '#', '#', '#', '#', ' ', '#', ' ', '#'},
+                {'#', ' ', ' ', ' ', '#', ' ', '#', ' ', '#', ' ', '#', ' ', ' ', ' ', ' ', ' ', '#', ' ', '#', ' ', ' ', ' ', '#', ' ', '#', ' ', ' ', ' ', '#', ' ', '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#', ' ', '#'},
+                {'#', '#', '#', '#', '#', ' ', '#', ' ', '#', '#', '#', ' ', '#', '#', '#', ' ', '#', ' ', '#', ' ', '#', '#', '#', ' ', '#', ' ', '#', ' ', '#', ' ', '#', ' ', '#', '#', '#', '#', '#', '#', '#', ' ', '#'},
+                {'#', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', '#', ' ', '#', ' ', '#', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', '#', ' ', '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#'},
+                {'#', ' ', '#', '#', '#', ' ', '#', '#', '#', '#', '#', '#', '#', ' ', '#', '#', '#', '#', '#', ' ', '#', ' ', '#', '#', '#', '#', '#', '#', '#', '#', '#', ' ', '#', '#', '#', '#', '#', '#', '#', '#', '#'},
+                {'#', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', '#', ' ', '#', ' ', '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#'},
+                {'#', '#', '#', '#', '#', '#', '#', '#', '#', ' ', '#', '#', '#', '#', '#', '#', '#', ' ', '#', ' ', '#', ' ', '#', '#', '#', '#', '#', ' ', '#', ' ', '#', ' ', '#', '#', '#', '#', '#', '#', '#', ' ', '#'},
+                {'#', ' ', ' ', ' ', '#', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', '#', ' ', '#', ' ', ' ', ' ', '#', ' ', '#', ' ', '#', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', '#'},
+                {'#', ' ', '#', ' ', '#', ' ', '#', ' ', '#', '#', '#', '#', '#', '#', '#', ' ', '#', '#', '#', '#', '#', ' ', '#', ' ', '#', ' ', '#', ' ', '#', ' ', '#', '#', '#', '#', '#', ' ', '#', '#', '#', '#', '#'},
+                {'#', ' ', '#', ' ', ' ', ' ', '#', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', '#', ' ', '#', ' ', '#', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', '#'},
+                {'#', ' ', '#', ' ', '#', '#', '#', '#', '#', ' ', '#', ' ', '#', ' ', '#', '#', '#', ' ', '#', ' ', '#', ' ', '#', ' ', '#', '#', '#', '#', '#', '#', '#', '#', '#', ' ', '#', '#', '#', '#', '#', ' ', '#'},
+                {'#', ' ', '#', ' ', '#', ' ', ' ', ' ', '#', ' ', ' ', ' ', '#', ' ', '#', ' ', ' ', ' ', '#', ' ', ' ', ' ', '#', ' ', '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#'},
+                {'#', ' ', '#', '#', '#', ' ', '#', ' ', '#', '#', '#', '#', '#', ' ', '#', ' ', '#', '#', '#', '#', '#', '#', '#', ' ', '#', ' ', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', ' ', '#'},
+                {'#', ' ', ' ', ' ', ' ', ' ', '#', ' ', '#', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', '#'},
+                {'#', ' ', '#', '#', '#', '#', '#', ' ', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', ' ', '#', '#', '#', '#', '#', '#', '#', ' ', '#', '#', '#', ' ', '#', '#', '#'},
+                {'#', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', ' ', 'E', '#'},
+                {'#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#'}
+        };
+
+        int[] coordinate = MazeSolver.findStartingCoordinate(maze);
+        int[] actualCoordinate = {1, 1};
+
+        assertArrayEquals(actualCoordinate, coordinate);
+    }
+
+    /**
+     * Test if the method can find the starting coordinate and attempt to solve the solvable maze.
      */
     @Test
     public void showMazeSolutionSmallGUI() {
@@ -121,14 +189,14 @@ public class MazeSolverTest {
                 {'#', ' ', ' ', ' ', '#', 'E', '#'},
                 {'#', '#', '#', '#', '#', '#', '#'}
         };
-        MazeView GUIView = new MazeView("GUI", maze);
-        solver = new MazeSolver(GUIView);
-        solver.showMazeSolution(maze, 1, 1);
-        assertEquals("Path found", outContent.toString());
+        displayMode = "GUI";
+        solver = new MazeSolver();
+        new MazeView(solver, displayMode, maze);
+        assertTrue(solver.showMazeSolution(maze));
     }
 
     /**
-     * Check the failure message is printed for the maze which is not solvable.
+     * Test if the method can find the starting coordinate and attempt to solve the not solvable maze.
      */
     @Test
     public void showMazeSolutionNoSolutionGUI() {
@@ -141,9 +209,10 @@ public class MazeSolverTest {
                 {'#', ' ', ' ', ' ', '#', 'E', '#'},
                 {'#', '#', '#', '#', '#', '#', '#'}
         };
-        MazeView GUIView = new MazeView("GUI", maze);
-        solver = new MazeSolver(GUIView);
-        solver.showMazeSolution(maze, 1, 1);
-        assertEquals("No path", outContent.toString());
+        displayMode = "GUI";
+        solver = new MazeSolver();
+        new MazeView(solver, displayMode, maze);
+        solver.showMazeSolution(maze);
+        assertFalse(solver.showMazeSolution(maze));
     }
 }

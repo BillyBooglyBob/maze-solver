@@ -4,7 +4,7 @@ import model.MazeSolver;
 import view.MazeView;
 
 /**
- * Control class that handles the input of display mode and maze into Model and View classes,
+ * Control class that handles the input of display mode and maze into the Model and View classes,
  * allowing for maze solving and solution display.
  */
 public class Control {
@@ -21,46 +21,19 @@ public class Control {
      */
     public Control(String displayMode, char[][] maze) {
         this.maze = maze;
-
-        // MazeView set as local variable as it is only used once here
-        MazeView view;
-        if (displayMode.equals("GUI")) {
-            view = new MazeView(displayMode, maze);
-        } else {
-            view = new MazeView();
-        }
-
-       this.solver = new MazeSolver(view);
+        this.solver = new MazeSolver();
+        new MazeView(solver, displayMode, maze);
     }
 
     /**
-     * Solves the maze from its starting coordinate.
+     * Solves the maze and print out the outcome depending on whether it can be solved or not.
      */
     public void solveMaze() {
-        int[] startingCoordinate = findStartingCoordinate(maze);
-        int startRow = startingCoordinate[0];
-        int startCol = startingCoordinate[1];
-        solver.showMazeSolution(maze, startRow, startCol);
-    }
-
-    /**
-     * Used to find the starting coordinate of the selected maze.
-     *
-     * @param maze 2D maze to solve.
-     * @return starting coordinate in the form [row, column].
-     * @require only one start point ('S') exists.
-     * @ensure the start points coordinate is returned.
-     */
-    public static int[] findStartingCoordinate(char[][] maze) {
-        int[] startingCoordinate = {0, 0};
-        for (int i = 0; i < maze.length; i++) {
-            for (int j = 0; j < maze[0].length; j++) {
-                if (maze[i][j] == 'S') {
-                    startingCoordinate[0] = i;
-                    startingCoordinate[1] = j;
-                }
-            }
+        boolean mazeSolvability = solver.showMazeSolution(maze);
+        if (!mazeSolvability) {
+            System.out.print("No path\n");
+        } else {
+            System.out.print("Path found\n");
         }
-        return startingCoordinate;
     }
 }

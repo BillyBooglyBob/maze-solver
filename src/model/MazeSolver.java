@@ -1,22 +1,36 @@
 package model;
 
-import view.MazeView;
+import view.Observer;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Model class which solves the given maze from a given starting position.
+ * Model class which solves the given maze from its starting position.
  */
 public class MazeSolver {
-
-    /** Used to update the view with the newest maze after each step of solving. */
-    private final MazeView view;
+    /** List of views to update. */
+    private final List<Observer> observers = new ArrayList<>();
 
     /**
-     * Initialises the MazeSolver with the provided view.
+     * Adds instance of the view that displays the maze in the user chosen mode (text or GUI) to the observers list
+     * used by the MazeSolver to update the display as it solves the maze.
      *
-     * @param view used to update the maze.
+     * @param observer instance of the view that displays the maze in the user chosen mode (text or GUI).
      */
-    public MazeSolver(MazeView view) {
-        this.view = view;
+    public void addObserver(Observer observer) {
+        observers.add(observer);
+    }
+
+    /**
+     * Notifies the view instance on the list to redraw the updated maze.
+     *
+     * @param maze new updated maze to redraw on the screen.
+     */
+    private void notifyObservers(char[][] maze) {
+        for (Observer view : observers) {
+            view.redraw(maze);
+        }
     }
 
     /** Implements the depth first search algorithm to solve the provided maze from its starting position.
@@ -37,7 +51,7 @@ public class MazeSolver {
         // check if the end is reached ('E' is the end)
         if (maze[row][col] == 'E') {
             // redraws the maze with the path found highlighted
-            this.view.redraw(maze);
+            notifyObservers(maze);
             return true;
         }
 
@@ -45,7 +59,7 @@ public class MazeSolver {
         if (maze[row][col] == ' ' || maze[row][col] == '.' || maze[row][col] == 'S') {
             maze[row][col] = 'T';
             // redraw the updated maze
-            this.view.redraw(maze);
+            notifyObservers(maze);
 
             // sleep to give adequate time to view the changing maze
             try {
@@ -87,22 +101,44 @@ public class MazeSolver {
     }
 
     /**
-     * Depending on the outcome of the maze-solving attempt, inform the user of the outcome.
+     * Used to find the starting coordinate of the selected maze.
+     *
+     * @param maze 2D maze to solve.
+     * @return starting coordinate in the form [row, column].
+     * @require only one starting point ('S') exists.
+     * @ensure the starting point's coordinate is returned.
+     */
+    public static int[] findStartingCoordinate(char[][] maze) {
+        int[] startingCoordinate = {0, 0};
+        for (int row = 0; row < maze.length; row++) {
+            for (int col = 0; col < maze[0].length; col++) {
+                if (maze[row][col] == 'S') {
+                    startingCoordinate[0] = row;
+                    startingCoordinate[1] = col;
+                }
+            }
+        }
+        return startingCoordinate;
+    }
+
+    /**
+     * Runs the maze solving process from its starting coordinate and returns the outcome using boolean value.
      * <p>
-     * If solvable, displays the correct path and success message.
-     * If not solvable, outputs fail message.
+     * First obtains the maze's starting coordinate then
+     * If solvable, return true.
+     * Else, return false.
      * </p>
      *
      * @param maze 2D maze to solve.
-     * @param row starting position's row.
-     * @param col starting position's column.
+     * @return whether the maze the solved or not.
      */
-    public void showMazeSolution(char[][] maze, int row, int col) {
-        if (!this.solveMaze(maze, row, col)) {
-            System.out.println("No path");
-        } else {
-            // uses print instead of println as it is the end of the output and to enable testing of output
-            System.out.println("Path found");
-        }
+    public boolean showMazeSolution(char[][] maze) {
+        /* Starting position's coordinate */
+        int[] startingCoordinate = MazeSolver.findStartingCoordinate(maze);
+        int startRow = startingCoordinate[0];
+        int startCol = startingCoordinate[1];
+
+        return this.solveMaze(maze, startRow, startCol);
     }
+
 }

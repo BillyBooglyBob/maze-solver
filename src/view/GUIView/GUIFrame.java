@@ -1,4 +1,4 @@
-package view;
+package view.GUIView;
 
 import control.Control;
 import exceptions.MazeMalformedException;
@@ -100,14 +100,10 @@ public class GUIFrame extends JFrame implements ActionListener {
 
         // load the chosen maze into 2D array
         FileLoader fileLoader = new FileLoader();
-        char[][] maze = new char[0][];
+        char[][] maze;
         try {
             maze = fileLoader.load(mazeFile);
-        } catch (MazeMalformedException e) {
-            throw new RuntimeException(e);
-        } catch (MazeSizeMissmatchException e) {
-            throw new RuntimeException(e);
-        } catch (FileNotFoundException e) {
+        } catch (MazeMalformedException | MazeSizeMissmatchException | FileNotFoundException e) {
             throw new RuntimeException(e);
         }
 

@@ -1,17 +1,20 @@
-package view;
+package view.TextView;
+
+import view.Observer;
 
 /**
  * Class dedicated to displaying the given maze using text with colours in the terminal.
  */
-public class TextView {
+public class TextView implements Observer {
     /**
      * Redraws the maze using text with ANSI colours.
      *
-     * @param newMaze new 2D maze to display in the terminal using text.
+     * @param maze new 2D maze to display in the terminal using text.
      */
-    public static void redraw(char[][] newMaze) {
+    @Override
+    public void redraw(char[][] maze) {
         // change the size based on maze dimension
-        int blockSize = TextView.blockSize(newMaze);
+        int blockSize = TextView.blockSize(maze);
         String block = TextView.createBlock(blockSize);
 
         // colours used for the blocks
@@ -31,7 +34,7 @@ public class TextView {
         String resetColor = "\u001B[0m";       // Reset color to default
 
         // go through the maze
-        for (char[] row : newMaze) {
+        for (char[] row : maze) {
             for (char cell : row) {
                 switch (cell) {
                     case 'S' -> System.out.print(start);

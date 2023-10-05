@@ -139,7 +139,21 @@ public class FileLoaderTest {
     }
 
     /**
-     * Test if attempting to laod a maze that does not exist throws FileNotFoundException.
+     * Test if a maze containing characters not part of the list ('#', ' ', '.', 'S', 'E') throws
+     * MazeMalformedException.
+     *
+     * @throws FileNotFoundException If the maze file is not found.
+     * @throws MazeSizeMissmatchException If the maze dimensions do not match the provided size.
+     * @throws MazeMalformedException If the maze data is not correctly formatted.
+     */
+    @Test (expected = IllegalArgumentException.class)
+    public void loadTestMapWrongCharacter()
+            throws FileNotFoundException, MazeSizeMissmatchException, MazeMalformedException {
+        fileLoader.load("maze-solver\\test\\mazes\\WrongCharacter.txt");
+    }
+
+    /**
+     * Test if attempting to load a maze that does not exist throws FileNotFoundException.
      *
      * @throws FileNotFoundException If the maze file is not found.
      * @throws MazeSizeMissmatchException If the maze dimensions do not match the provided size.
@@ -149,20 +163,6 @@ public class FileLoaderTest {
     public void loadTestNonExistentFile()
             throws FileNotFoundException, MazeSizeMissmatchException, MazeMalformedException {
         fileLoader.load("maze-solver\\test\\mazes\\NonExistentFile.txt");
-    }
-
-    /**
-     * Test if a maze containing characters not part of the list ('#', ' ', '.', 'S', 'E') throws
-     * MazeMalformedException.
-     *
-     * @throws FileNotFoundException If the maze file is not found.
-     * @throws MazeSizeMissmatchException If the maze dimensions do not match the provided size.
-     * @throws MazeMalformedException If the maze data is not correctly formatted.
-     */
-    @Test (expected = MazeMalformedException.class)
-    public void loadTestMapWrongCharacter()
-            throws FileNotFoundException, MazeSizeMissmatchException, MazeMalformedException {
-        fileLoader.load("maze-solver\\test\\mazes\\WrongCharacter.txt");
     }
 
     /**
@@ -218,7 +218,7 @@ public class FileLoaderTest {
     }
 
     /**
-     * Test if a maze containing less rows than the specified dimension throws MazeSizeMissmatchException.
+     * Test if a maze containing fewer rows than the specified dimension throws MazeSizeMissmatchException.
      *
      * @throws FileNotFoundException If the maze file is not found.
      * @throws MazeSizeMissmatchException If the maze dimensions do not match the provided size.
@@ -251,9 +251,9 @@ public class FileLoaderTest {
      * @throws MazeMalformedException If the maze data is not correctly formatted.
      */
     @Test (expected = MazeSizeMissmatchException.class)
-    public void loadTestLessWidth()
+    public void loadTestTooLessWidth()
             throws FileNotFoundException, MazeSizeMissmatchException, MazeMalformedException {
-        fileLoader.load("maze-solver\\test\\mazes\\LessWidth.txt");
+        fileLoader.load("maze-solver\\test\\mazes\\TooLessWidth.txt");
     }
 
 }

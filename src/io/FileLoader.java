@@ -72,11 +72,11 @@ public class FileLoader implements FileInterface {
                 // check width of the maze matches the dimension provided
                 FileLoader.checkLineLength(rowWidth, columns);
 
-                // ensure the content of the maze are all valid
-                checkRowBorders(row, rowWidth, rows, rowCounter);
-
                 // check all the characters of the row are valid
                 checkRowContent(row, rowWidth);
+
+                // ensure the border of the maze are all walls '#'
+                checkRowBorders(row, rowWidth, rows, rowCounter);
 
                 // check if the maze has more rows than the specified dimension
                 checkRowCounterExceedsRows(rows, rowCounter);
@@ -193,13 +193,13 @@ public class FileLoader implements FileInterface {
      * </p>
      *
      * @param row The row to be checked.
-     * @throws MazeMalformedException If the row's content is not valid.
+     * @throws IllegalArgumentException If the row's content is not valid.
      */
-    private void checkRowContent(String row, int rowWidth) throws MazeMalformedException {
+    private void checkRowContent(String row, int rowWidth) throws IllegalArgumentException {
          for (int i = 0; i < rowWidth; i++) {
             char a = row.charAt(i);
             if (a != '#' && a != ' ' && a != '.' && a != 'S' && a != 'E') {
-                throw new MazeMalformedException();
+                throw new IllegalArgumentException();
             }
         }
     }

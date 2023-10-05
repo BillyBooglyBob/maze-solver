@@ -1,5 +1,9 @@
 package view;
 
+import model.MazeSolver;
+import view.GUIView.GUIView;
+import view.TextView.TextView;
+
 /**
  * Class for displaying the maze in the terminal or in the GUI.
  * <p>
@@ -8,45 +12,24 @@ package view;
  */
 public class MazeView {
 
-    /** Mode chosen to display the maze (either text or GUI). */
-    private final String displayMode;
-
-    /** Used to display the maze in the GUI */
-    private GUISetup GUIView;
-
-    /**
-     * Default constructor which makes the default display mode text.
-     */
-    public MazeView() {
-        this.displayMode = "text";
-    }
-
     /**
      * Constructor that lets the user decide between text or GUI display of the maze.
+     * <p>
+     * Depending on the mode, creates instance of that view and adds it to the Model's observer list for updating.
+     * </p>
      *
+     * @param mazeSolver used to add instance of the view chosen to its observers' list, so it can update it when
+     *                   solving the maze.
      * @param displayMode mode that specifies whether the maze will be displayed using text or GUI.
      * @param maze 2D array of the maze to display.
      */
-    public MazeView(String displayMode, char[][] maze) {
+    public MazeView(MazeSolver mazeSolver, String displayMode, char[][] maze) {
         if (displayMode.equals("GUI")) {
-            this.displayMode = displayMode;
-            GUIView = new GUISetup();
-            GUIView.init(maze);
+            GUIView GUIView = new GUIView(maze);
+            mazeSolver.addObserver(GUIView);
         } else {
-            this.displayMode = "text";
-        }
-    }
-
-    /**
-     * Redraws the maze based on the updated version in the selected mode.
-     *
-     * @param maze 2D array of the current maze.
-     */
-    public void redraw(char[][] maze) {
-        if (displayMode.equals("text")) {
-            TextView.redraw(maze);
-        } else {
-            GUIView.redraw(maze);
+            view.TextView.TextView textView = new TextView();
+            mazeSolver.addObserver(textView);
         }
     }
 }

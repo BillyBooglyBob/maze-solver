@@ -1,18 +1,23 @@
-package view;
+package view.GUIView;
+
+import view.Observer;
 
 /**
- * Set up the JFrame which contains the GUIView JPanel based on provided maze initialises the JPanel.
+ * Sets up the GUIPanel (JPanel) which draws the maze and pass it to GUIFrame (JFrame).
+ * <p>
+ * Can directly interact with GUIPanel and redraw it.
+ * </p>
  */
-public class GUISetup {
+public class GUIView implements Observer {
     /** Stores the panel to ensure it can be redrawn. */
-    private GUIPanel mazePanel;
+    private final GUIPanel mazePanel;
 
     /**
      * Creates the JFrame which contains the JPanel that draws the maze.
      *
      * @param maze 2D maze to be displayed.
      */
-    public void init(char[][] maze) {
+    public GUIView(char[][] maze) {
         mazePanel = new GUIPanel(maze);
         new GUIFrame(mazePanel);
     }
