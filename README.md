@@ -3,14 +3,20 @@ Automated maze solver using Depth First Search with two display modes and option
 
 
 **Maze requirement**
+
 '#' = wall
+
 ' ', '.' = path
+
 'S' = start
+
 'E' = end
+
 Maze must be uniform with walls on the outside.
 
 
 **How to run**
+
 Run using the terminal by providing the display mode and maze to solve.
 
 
