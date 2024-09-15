@@ -23,6 +23,7 @@ Run using the terminal by providing the display mode and maze to solve.
 instructions:
 
 java Launcher.java "display mode" "maze"
+
 display mode can be either text or GUI
 - leave to select text mode.
 - replace with "GUI" to select GUI mode (in GUI mode, can select different mazes to solve without needing to recompile)
