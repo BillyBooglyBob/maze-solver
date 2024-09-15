@@ -1,6 +1,6 @@
 # maze-solver
 Automated maze solver using Depth First Search with two display modes and option to select different mazes to display.
-
+![image](https://github.com/user-attachments/assets/12dab4da-3446-4230-93c8-f7c687b25332)
 
 **Maze requirement**
 
